@@ -9,6 +9,9 @@ class Snake:
         self.dx = 0
         self.dy = 10
         self.direction = None
+        self.off_x = 0
+        self.off_y = -30
+        self.food_eaten = 4
         self.sw = sw
         self.sh = sh
         self.screen = display
@@ -20,6 +23,7 @@ class Snake:
         self.screen.fill((0, 0, 0))
         self.screen.blit(self.body, (self.x, self.y))
         self.movement()
+        self.tail()
 
     def movement(self):
         self.x += self.dx
@@ -27,6 +31,7 @@ class Snake:
         if self.direction == "w":
             self.dx = 0
             self.dy = -10
+
         if self.direction == "a":
             self.dx = -10
             self.dy = 0
@@ -36,9 +41,24 @@ class Snake:
         if self.direction == "d":
             self.dx = 10
             self.dy = 0
+        # stops snake from disappearing off the screen
+        if self.x == 0:
+            self.x = self.sw
+        elif self.x == self.sw:
+            self.x = 0
+        elif self.y == 0:
+            self.y = self.sh
+        elif self.y == self.sh:
+            self.y = 0
 
     def tail(self):
-        pass
+        if self.food_eaten == 0:
+            pass
+        else:
+            for i in range(1, self.food_eaten + 1):
+                self.screen.blit(self.body,
+                                 (self.x - (self.off_x * -i),
+                                  self.y - (self.off_y * -i)))
 
 
 if __name__ == '__main__':
