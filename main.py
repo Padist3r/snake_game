@@ -52,13 +52,14 @@ class Snake:
             self.dy = 0
 
         # stops snake from disappearing off the screen
-        if self.x == 20:
+        # todo this still needs work
+        if self.x < 20:
             self.x = self.sw - 20
-        elif self.x == self.sw - 20:
+        elif self.x > self.sw - 20:
             self.x = 20
-        elif self.y == 20:
+        elif self.y < 20:
             self.y = self.sh - 20
-        elif self.y == self.sh - 20:
+        elif self.y > self.sh - 20:
             self.y = 20
 
         if self.snake_alive:
