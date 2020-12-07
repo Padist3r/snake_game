@@ -52,14 +52,13 @@ class Snake:
             self.dy = 0
 
         # stops snake from disappearing off the screen
-        # todo this still needs work
         if self.x < 20:
-            self.x = self.sw - 20
-        elif self.x > self.sw - 20:
+            self.x = self.sw - 40
+        elif self.x > self.sw - 40:
             self.x = 20
         elif self.y < 20:
-            self.y = self.sh - 20
-        elif self.y > self.sh - 20:
+            self.y = self.sh - 40
+        elif self.y > self.sh - 40:
             self.y = 20
 
         if self.snake_alive:
@@ -97,7 +96,12 @@ def main_screen(scr):
     pygame.draw.line(scr, white, (20, 20), (780, 20))
     pygame.draw.line(scr, white, (20, 580), (780, 580))
     pygame.draw.line(scr, white, (20, 20), (20, 580))
-    pygame.draw.line(scr, white, (780, 20), (780, 580))
+    pygame.draw.line(scr, white, (780, 20), (780, 580))    # text
+    font = pygame.font.Font("freesansbold.ttf", 20)
+    score_text = font.render(f"Score: {snake.food_eaten - 1}", True, white, black)
+    score_rect = score_text.get_rect()
+    score_rect.center = (60, 10)
+    screen.blit(score_text, score_rect)
 
 
 if __name__ == '__main__':
@@ -112,6 +116,7 @@ if __name__ == '__main__':
 
     # colors
     white = (255, 255, 255)
+    black = (0, 0, 0)
 
     # snake
     snake = Snake(screen, white, width, height)
@@ -137,7 +142,6 @@ if __name__ == '__main__':
 
         screen.fill((0, 0, 0))
         snake.draw_snake()
-        print((snake.x,snake.y))
         main_screen(screen)
 
         pygame.display.update()
