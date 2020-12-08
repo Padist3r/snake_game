@@ -92,16 +92,32 @@ class Snake:
                                        20 * random.randint(1, 28)
 
 
-def main_screen(scr):
-    pygame.draw.line(scr, white, (20, 20), (780, 20))
-    pygame.draw.line(scr, white, (20, 580), (780, 580))
-    pygame.draw.line(scr, white, (20, 20), (20, 580))
-    pygame.draw.line(scr, white, (780, 20), (780, 580))    # text
+def main_screen():
+    pygame.draw.line(screen, white, (20, 20), (780, 20))
+    pygame.draw.line(screen, white, (20, 580), (780, 580))
+    pygame.draw.line(screen, white, (20, 20), (20, 580))
+    pygame.draw.line(screen, white, (780, 20), (780, 580))
+    # text
     font = pygame.font.Font("freesansbold.ttf", 20)
-    score_text = font.render(f"Score: {snake.food_eaten - 1}", True, white, black)
+    score_text = font.render(f"Score: {snake.food_eaten - 1}", True, white,
+                             black)
     score_rect = score_text.get_rect()
     score_rect.center = (60, 10)
     screen.blit(score_text, score_rect)
+
+
+def game_over_screen():
+    pygame.draw.line(screen, white, (20, 20), (780, 20))
+    pygame.draw.line(screen, white, (20, 580), (780, 580))
+    pygame.draw.line(screen, white, (20, 20), (20, 580))
+    pygame.draw.line(screen, white, (780, 20), (780, 580))
+    # text
+    font = pygame.font.Font("freesansbold.ttf", 60)
+    game_over_text = font.render("Game Over!", True, white,
+                             black)
+    game_over_rect = game_over_text.get_rect()
+    game_over_rect.center = (400, 300)
+    screen.blit(game_over_text, game_over_rect)
 
 
 if __name__ == '__main__':
@@ -141,8 +157,11 @@ if __name__ == '__main__':
                     direction = "d"
 
         screen.fill((0, 0, 0))
-        snake.draw_snake()
-        main_screen(screen)
+        if snake.snake_alive:
+            snake.draw_snake()
+            main_screen()
+        else:
+            game_over_screen()
 
         pygame.display.update()
         clock.tick(15)
