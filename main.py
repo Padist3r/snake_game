@@ -92,6 +92,31 @@ class Snake:
                                        20 * random.randint(1, 28)
 
 
+def title_screen():
+    global counter
+    pygame.draw.line(screen, white, (20, 20), (780, 20))
+    pygame.draw.line(screen, white, (20, 580), (780, 580))
+    pygame.draw.line(screen, white, (20, 20), (20, 580))
+    pygame.draw.line(screen, white, (780, 20), (780, 580))
+    # text
+    font = pygame.font.Font("freesansbold.ttf", 80)
+    title_text = font.render("SNAKE", True, white,
+                             black)
+    title_alt = font.render("SNAKE", True, (255, 0, 0), black)
+    title_rect = title_text.get_rect()
+    title_rect.center = (400, 200)
+    # flashing
+    print(counter)
+    if counter < 5:
+        screen.blit(title_text, title_rect)
+        counter += 1
+    else:
+        screen.blit(title_alt, title_rect)
+        counter += 1
+        if counter == 11:
+            counter = 0
+
+
 def main_screen():
     pygame.draw.line(screen, white, (20, 20), (780, 20))
     pygame.draw.line(screen, white, (20, 580), (780, 580))
@@ -140,6 +165,10 @@ if __name__ == '__main__':
 
     # clock
     clock = pygame.time.Clock()
+    counter = 0
+
+    # game state
+    game_state = "title"
 
     game_over = False
     while not game_over:
@@ -157,14 +186,16 @@ if __name__ == '__main__':
                     direction = "d"
 
         screen.fill((0, 0, 0))
-        if snake.snake_alive:
+        if game_state == "title":
+            title_screen()
+        elif game_state == "play":
             snake.draw_snake()
             main_screen()
-        else:
+        elif game_state == "game_over":
             game_over_screen()
 
         pygame.display.update()
-        clock.tick(15)
+        clock.tick(10)
 
     pygame.quit()
     quit()
