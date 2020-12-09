@@ -98,22 +98,33 @@ def title_screen():
     pygame.draw.line(screen, white, (20, 580), (780, 580))
     pygame.draw.line(screen, white, (20, 20), (20, 580))
     pygame.draw.line(screen, white, (780, 20), (780, 580))
-    # text
+    # title text
     font = pygame.font.Font("freesansbold.ttf", 80)
-    title_text = font.render("SNAKE", True, white,
+    title_text = font.render("SNAKE", False, white,
                              black)
-    title_alt = font.render("SNAKE", True, (255, 0, 0), black)
+    title_alt = font.render("SNAKE", False, (190, 190, 190), black)
     title_rect = title_text.get_rect()
     title_rect.center = (400, 200)
-    # flashing
-    print(counter)
+
+    # prompt text
+    prompt_font = pygame.font.Font("freesansbold.ttf", 20)
+    prompt_text = prompt_font.render("Press 'p' to begin...", False, white,
+                                     black)
+    alt_prompt_text = prompt_font.render("Press 'p' to begin...", False,
+                                         (190, 190, 190), black)
+    prompt_rect = prompt_text.get_rect()
+    prompt_rect.center = (400, 400)
+
+    # flashing text
     if counter < 5:
         screen.blit(title_text, title_rect)
-        counter += 1
+        screen.blit(alt_prompt_text, prompt_rect)
+        counter += 2
     else:
         screen.blit(title_alt, title_rect)
-        counter += 1
-        if counter == 11:
+        screen.blit(prompt_text, prompt_rect)
+        counter += 2
+        if counter == 12:
             counter = 0
 
 
@@ -184,6 +195,8 @@ if __name__ == '__main__':
                     direction = "s"
                 elif event.key == ord("d"):
                     direction = "d"
+                elif event.key == ord("p") and game_state == "title":
+                    game_state = "play"
 
         screen.fill((0, 0, 0))
         if game_state == "title":
@@ -191,6 +204,8 @@ if __name__ == '__main__':
         elif game_state == "play":
             snake.draw_snake()
             main_screen()
+            if  not snake.snake_alive:
+                game_state = "game_over"
         elif game_state == "game_over":
             game_over_screen()
 
