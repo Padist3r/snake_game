@@ -149,11 +149,17 @@ def game_over_screen():
     pygame.draw.line(screen, white, (780, 20), (780, 580))
     # text
     font = pygame.font.Font("freesansbold.ttf", 60)
+    font_2 = pygame.font.Font("freesansbold.ttf", 20)
     game_over_text = font.render("Game Over!", True, white,
                              black)
     game_over_rect = game_over_text.get_rect()
     game_over_rect.center = (400, 300)
+    prompt_text = font_2.render("Press `p` to return to main menu...", False,
+                              white, black)
+    prompt_rect = prompt_text.get_rect()
+    prompt_rect.center = (400, 400)
     screen.blit(game_over_text, game_over_rect)
+    screen.blit(prompt_text, prompt_rect)
 
 
 if __name__ == '__main__':
@@ -179,7 +185,7 @@ if __name__ == '__main__':
     counter = 0
 
     # game state
-    game_state = "title"
+    game_state = "game_over"
 
     game_over = False
     while not game_over:
@@ -197,6 +203,8 @@ if __name__ == '__main__':
                     direction = "d"
                 elif event.key == ord("p") and game_state == "title":
                     game_state = "play"
+                elif event.key == ord("p") and game_state == "game_over":
+                    game_state = "title"
 
         screen.fill((0, 0, 0))
         if game_state == "title":
@@ -204,7 +212,7 @@ if __name__ == '__main__':
         elif game_state == "play":
             snake.draw_snake()
             main_screen()
-            if  not snake.snake_alive:
+            if not snake.snake_alive:
                 game_state = "game_over"
         elif game_state == "game_over":
             game_over_screen()
