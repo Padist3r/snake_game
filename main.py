@@ -185,7 +185,7 @@ if __name__ == '__main__':
     counter = 0
 
     # game state
-    game_state = "game_over"
+    game_state = "title"
 
     game_over = False
     while not game_over:
